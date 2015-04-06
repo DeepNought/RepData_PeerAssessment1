@@ -8,6 +8,9 @@ output:
 
 ## Loading and preprocessing the data
 
+```{r}
+if(!file.exists("activity.csv")) unzip("activity.zip")
+```
 
 
 ## What is mean total number of steps taken per day?
