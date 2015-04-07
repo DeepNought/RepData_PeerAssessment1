@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 ---
 
@@ -25,7 +20,8 @@ compressed file named **activity.zip**.  The code below unzips the file and
 reads the data into a data.frame object named *activity*.  At this point no
 other processing of the data is necessary to answer the questions below.
 
-```{r}
+
+```r
 if(!file.exists("activity.csv")) unzip("activity.zip")
 activity <- read.csv("activity.csv")
 ```
@@ -37,14 +33,16 @@ activity <- read.csv("activity.csv")
 Use the *dplyr* functions *group_by()* and *summarise()* to determine the
 total number of steps taken per day and use *hist()* to generate a histogram
 
-```{r}
+
+```r
 suppressMessages(library(dplyr))
 dsteps <- activity %>%
     group_by(date) %>%
     summarise(total_steps = sum(steps))
 ```
 
-```{r, fig.height=5}
+
+```r
 op <- par(no.readonly = TRUE)
 par(bg="wheat")
 hist(dsteps$total_steps,
@@ -52,16 +50,22 @@ hist(dsteps$total_steps,
      xlab = "Total Steps",
      col = "steelblue"
      )
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
+```r
 par(op)
 ```
 
-```{r}
+
+```r
 avg <- mean(dsteps$total_steps, na.rm = TRUE)
 avg <- format(avg, nsmall = 2)
 med <- median(dsteps$total_steps, na.rm = TRUE)
 ```
-The mean of the total number of steps taken per day is `r avg`.  The median of
-the total number of steps taken per day is `r med`.
+The mean of the total number of steps taken per day is 10766.19.  The median of
+the total number of steps taken per day is 10765.
 
 ---
 
@@ -73,7 +77,8 @@ number of steps taken, averaged across all days (y-axis), use *dplyr* functions
 *group_by() * to group them by *interval*, and finally *summarise()* to find
 the average number of steps.
 
-```{r}
+
+```r
 dact <- activity %>%
     filter(!is.na(steps)) %>%
     group_by(interval) %>%
@@ -82,7 +87,8 @@ dact <- activity %>%
 
 Plot the average number of steps vs. interval:
 
-```{r, fig.height=5}
+
+```r
 op <- par(no.readonly = TRUE)
 par(bg="wheat")
 plot(dact$interval,
@@ -93,19 +99,25 @@ plot(dact$interval,
      xlab = "Interval",
      ylab = "Average Number of Steps"
      )
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+```r
 par(op)
 ```
 
 Find the interval that, on average across all the days in the dataset, contains
 the maximum number of steps:
 
-```{r}
+
+```r
 m <- filter(dact, avg_steps == max(avg_steps))
 max_avg_steps <- format(max(dact$avg_steps), digits = 2, nsmall = 2)
 max_int <- m$interval
 ```
-The interval with the maximum average number of steps (`r max_avg_steps`)
-is `r max_int`.
+The interval with the maximum average number of steps (206.17)
+is 835.
 
 ---
 
@@ -113,13 +125,13 @@ is `r max_int`.
 
 Use *dplyr* function *count() * to count the number of missing values (NA):
 
-```{r}
+
+```r
 cnt <- count(activity, is.na(steps))
 missing <- cnt[[2,2]]
-
 ```
 
-The total number of missing values (steps) in the dataset is `r missing`.
+The total number of missing values (steps) in the dataset is 2304.
 
 Replace the *steps* missing values (NAs) with the mean for that *interval*.
 The mean for each interval was calculated above and is contained in the
@@ -128,7 +140,8 @@ The mean for each interval was calculated above and is contained in the
 to find the mean value within *dact* for that interval, and replace it for
 the missing value in *activity*.
 
-```{r}
+
+```r
 for(i in 1:nrow(activity)) {
     if(is.na(activity$steps[i])) {
         int <- activity$interval[i]
@@ -141,13 +154,15 @@ for(i in 1:nrow(activity)) {
 The above operation coerced the *activity$steps* column into a list.
 Coerce it back to an integer vector.
 
-```{r}
+
+```r
 activity$steps <- as.vector(activity$steps, mode="integer")
 ```
 
 Group by *date* and get the total number of steps for each day.
 
-```{r}
+
+```r
 dsteps <- activity %>%
     group_by(date) %>%
     summarise(total_steps = sum(steps))
@@ -156,7 +171,8 @@ dsteps <- activity %>%
 
 Plot a histogram of the imputed data:
 
-```{r, fig.height=5}
+
+```r
 op <- par(no.readonly = TRUE)
 par(bg="wheat")
 hist(dsteps$total_steps,
@@ -164,19 +180,25 @@ hist(dsteps$total_steps,
      xlab = "Total Steps",
      col = "steelblue"
      )
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+
+```r
 par(op)
 ```
 
 Calculate the mean and median total number of steps taken per day:
 
-```{r}
+
+```r
 avg <- mean(dsteps$total_steps, na.rm = TRUE)
 avg <- format(avg, nsmall = 2)
 med <- median(dsteps$total_steps, na.rm = TRUE)
 ```
 
-The mean of the total number of steps taken per day is `r avg`.  The median of
-the total number of steps taken per day is `r med`.
+The mean of the total number of steps taken per day is 10765.64.  The median of
+the total number of steps taken per day is 10762.
 
 The mean changed from 10766.19 to 10765.64 steps per day after imputing the
 missing values, and the median changed from 10765 to 10762 steps per day,
@@ -193,7 +215,8 @@ dataset.  Make another vector, *(y)*, by checking to see if each *x*
 component is "Saturday" or "Sunday" and assign *weekend* to *y*, if not,
 assign *weekday*.  Insert *y* as a column of *activity* named *day*.
 
-```{r}
+
+```r
 x <- weekdays(as.Date(activity$date))
 y <- ifelse(x == "Saturday" | x == "Sunday", "weekend", "weekday")
 activity <- mutate(activity, day = as.factor(y))
@@ -203,7 +226,8 @@ Group by *interval* and *day* and use *summarise()* to find the average
 number of steps taken for each interval, averaged across weekday days and
 weekend days.
 
-```{r}
+
+```r
 df<- activity %>%
     group_by(interval, day) %>%
     summarise(avg_steps = mean(steps))
@@ -212,7 +236,8 @@ df<- activity %>%
 Make a time series plot of the interval (x-axis) and the average number
 of steps taken (y-axis) for the weekday and weekend days:
 
-```{r, fig.height=6, fig.width=8}
+
+```r
 suppressMessages(library(ggplot2))
 g <- ggplot(df, aes(x = interval, y = avg_steps))
 g <- g + geom_line(aes(group=day, color=day)) +
@@ -222,4 +247,6 @@ g <- g + geom_line(aes(group=day, color=day)) +
     labs(title = "Average Daily Activity")
 print(g)
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
 
