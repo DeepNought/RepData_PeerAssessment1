@@ -9,8 +9,6 @@ Research* course, April 2015.
 
 > This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
----
-
 ## Loading and preprocessing the data
 
 The data was made available as part of the forked Github repo in the form of a
@@ -23,8 +21,6 @@ other processing of the data is necessary to answer the questions below.
 if(!file.exists("activity.csv")) unzip("activity.zip")
 activity <- read.csv("activity.csv")
 ```
-
----
 
 ## What is mean total number of steps taken per day?
 
@@ -41,7 +37,7 @@ dsteps <- activity %>%
 
 
 ```r
-op <- par(no.readonly = TRUE)
+op <- par(no.readonly = TRUE)    # save the par settings
 par(bg="wheat")
 hist(dsteps$total_steps,
      main = "Histogram of Total Number of Steps Taken Per Day",
@@ -53,7 +49,7 @@ hist(dsteps$total_steps,
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
 ```r
-par(op)
+par(op)   # restore par settings
 ```
 
 
@@ -65,14 +61,12 @@ med <- median(dsteps$total_steps, na.rm = TRUE)
 The mean of the total number of steps taken per day is 10766.19.  The median of
 the total number of steps taken per day is 10765.
 
----
-
 ## What is the average daily activity pattern?
 
 To make a time series plot of the 5-minute interval (x-axis) and the average
 number of steps taken, averaged across all days (y-axis), use *dplyr* functions
 *filter()* to select all observations withh no missing data (NA), then
-*group_by() * to group them by *interval*, and finally *summarise()* to find
+*group_by()* to group them by *interval*, and finally *summarise()* to find
 the average number of steps.
 
 
@@ -83,7 +77,7 @@ dact <- activity %>%
     summarise(avg_steps = mean(steps))
 ```
 
-Plot the average number of steps vs. interval:
+Plot the average number of steps versus interval:
 
 
 ```r
@@ -116,8 +110,6 @@ max_int <- m$interval
 ```
 The interval with the maximum average number of steps (206.17)
 is 835.
-
----
 
 ## Imputing missing values
 
@@ -203,8 +195,6 @@ missing values, and the median changed from 10765 to 10762 steps per day,
 a negligible difference in both cases.  It seems the missing values can be
 safely ignored when calculating the mean and median of the daily number
 of steps.
-
----
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
