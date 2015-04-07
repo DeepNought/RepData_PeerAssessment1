@@ -55,7 +55,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<hr />
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This is the first Peer Assessment assignment for Coursera’s <em>Reproducible Research</em> course, April 2015.</p>
@@ -125,11 +124,11 @@ max_int &lt;- m$interval</code></pre>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
-<p>Use <em>dplyr</em> function <em>count() </em> to count the number of missing values (NA):</p>
+<p>Use <em>dplyr</em> function <em>count()</em> to count the number of missing values (NA):</p>
 <pre class="r"><code>cnt &lt;- count(activity, is.na(steps))
 missing &lt;- cnt[[2,2]]</code></pre>
 <p>The total number of missing values (steps) in the dataset is 2304.</p>
-<p>Replace the <em>steps</em> missing values (NAs) with the mean for that <em>interval</em>. The mean for each interval was calculated above and is contained in the <em>dact</em> data.frame object. Loop through each row of <em>activity</em> and if the <em>steps </em> variable is missing, get the interval associated with it. Use this to find the mean value within <em>dact</em> for that interval, and replace it for the missing value in <em>activity</em>.</p>
+<p>Replace the <em>steps</em> missing values (NAs) with the mean for that <em>interval</em>. The mean for each interval was calculated above and is contained in the <em>dact</em> data.frame object. Loop through each row of <em>activity</em> and if the <em>steps</em> variable is missing, get the interval associated with it. Use this to find the mean value within <em>dact</em> for that interval, and replace a rounded off version of it for the missing value in <em>activity</em>.</p>
 <pre class="r"><code>for(i in 1:nrow(activity)) {
     if(is.na(activity$steps[i])) {
         int &lt;- activity$interval[i]

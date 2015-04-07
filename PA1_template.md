@@ -1,7 +1,5 @@
 # Reproducible Research: Peer Assessment 1
 
----
-
 ## Introduction
 
 This is the first Peer Assessment assignment for Coursera's *Reproducible
@@ -123,7 +121,7 @@ is 835.
 
 ## Imputing missing values
 
-Use *dplyr* function *count() * to count the number of missing values (NA):
+Use *dplyr* function *count()* to count the number of missing values (NA):
 
 
 ```r
@@ -136,9 +134,9 @@ The total number of missing values (steps) in the dataset is 2304.
 Replace the *steps* missing values (NAs) with the mean for that *interval*.
 The mean for each interval was calculated above and is contained in the
 *dact* data.frame object.  Loop through each row of *activity* and if the
-*steps * variable is missing, get the interval associated with it.  Use this
-to find the mean value within *dact* for that interval, and replace it for
-the missing value in *activity*.
+*steps* variable is missing, get the interval associated with it.  Use this
+to find the mean value within *dact* for that interval, and replace a
+rounded off version of it for the missing value in *activity*.
 
 
 ```r
