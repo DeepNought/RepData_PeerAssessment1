@@ -5,8 +5,6 @@ output:
     keep_md: true
 ---
 
----
-
 ## Introduction
 
 This is the first Peer Assessment assignment for Coursera's *Reproducible
