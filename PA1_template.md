@@ -51,7 +51,7 @@ dsteps <- activity %>%
 
 ```r
 g <- ggplot(dsteps, aes(x = total_steps)) +
-    theme_classic() +
+    theme_light() +
     geom_histogram(breaks = seq(0,25000, by = 2500),
                    color = "steelblue",
                    fill = "wheat",
@@ -96,7 +96,7 @@ Plot the average number of steps versus interval:
 
 ```r
 g <- ggplot(dact, aes(x = interval, y = avg_steps)) +
-    theme_classic() +
+    theme_light() +
     geom_line(color = "steelblue") +
     xlab("Interval") +
     ylab("Average Number of Steps") +
@@ -172,7 +172,7 @@ Plot a histogram of the imputed data:
 
 ```r
 g <- ggplot(dsteps, aes(x = total_steps)) +
-    theme_classic() +
+    theme_light() +
     geom_histogram(breaks = seq(0,25000, by = 2500),
                    color = "steelblue",
                    fill = "wheat",
@@ -233,7 +233,7 @@ of steps taken (y-axis) for the weekday and weekend days:
 
 ```r
 g <- ggplot(df, aes(x = interval, y = avg_steps)) +
-    theme_classic() +
+    theme_light() +
     geom_line(aes(group=day, color=day)) +
     facet_wrap(~ day, ncol = 1) +
     xlab("Interval") +
