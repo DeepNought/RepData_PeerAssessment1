@@ -11,10 +11,18 @@ Research* course, April 2015.
 
 ## Loading and preprocessing the data
 
+Load the required packages:
+
+
+```r
+library(dplyr)
+library(ggplot2)
+```
+
 The data was made available as part of the forked Github repo in the form of a
 compressed file named **activity.zip**.  The code below unzips the file and
-reads the data into a data.frame object named *activity*.  At this point no
-other processing of the data is necessary to answer the questions below.
+reads the data into a data.frame object named *activity*.  No
+other preprocessing of the data is necessary to answer the questions below.
 
 
 ```r
@@ -25,11 +33,10 @@ activity <- read.csv("activity.csv")
 ## What is mean total number of steps taken per day?
 
 Use the *dplyr* functions *group_by()* and *summarise()* to determine the
-total number of steps taken per day and use *hist()* to generate a histogram
+total number of steps taken per day and generate a histogram.
 
 
 ```r
-suppressMessages(library(dplyr))
 dsteps <- activity %>%
     group_by(date) %>%
     summarise(total_steps = sum(steps))
@@ -37,20 +44,20 @@ dsteps <- activity %>%
 
 
 ```r
-op <- par(no.readonly = TRUE)    # save the par settings
-par(bg="wheat")
-hist(dsteps$total_steps,
-     main = "Histogram of Total Number of Steps Taken Per Day",
-     xlab = "Total Steps",
-     col = "steelblue"
-     )
+g <- ggplot(dsteps, aes(x = total_steps)) +
+    theme_light() +
+    geom_histogram(breaks = seq(0,25000, by = 2500),
+                   color = "steelblue",
+                   fill = "wheat",
+                   alpha = 0.3) +
+    xlab("Total Steps") +
+    ggtitle("Histogram of Total Number of Steps Per Day")
+print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
-```r
-par(op)   # restore par settings
-```
+Calculate the mean and median of the total number of steps:
 
 
 ```r
@@ -58,6 +65,7 @@ avg <- mean(dsteps$total_steps, na.rm = TRUE)
 avg <- format(avg, nsmall = 2)
 med <- median(dsteps$total_steps, na.rm = TRUE)
 ```
+
 The mean of the total number of steps taken per day is 10766.19.  The median of
 the total number of steps taken per day is 10765.
 
@@ -81,23 +89,16 @@ Plot the average number of steps versus interval:
 
 
 ```r
-op <- par(no.readonly = TRUE)
-par(bg="wheat")
-plot(dact$interval,
-     dact$avg_steps,
-     type = "l",
-     col = "steelblue",
-     main = "Average Daily Activity",
-     xlab = "Interval",
-     ylab = "Average Number of Steps"
-     )
+g <- ggplot(dact, aes(x = interval, y = avg_steps)) +
+    theme_light() +
+    geom_line(color = "steelblue") +
+    xlab("Interval") +
+    ylab("Average Number of Steps") +
+    ggtitle("Average Daily Activity")
+print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
-
-```r
-par(op)
-```
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
 
 Find the interval that, on average across all the days in the dataset, contains
 the maximum number of steps:
@@ -105,9 +106,10 @@ the maximum number of steps:
 
 ```r
 m <- filter(dact, avg_steps == max(avg_steps))
-max_avg_steps <- format(max(dact$avg_steps), digits = 2, nsmall = 2)
+max_avg_steps <- format(m$avg_steps, digits = 2, nsmall = 2)
 max_int <- m$interval
 ```
+
 The interval with the maximum average number of steps (206.17)
 is 835.
 
@@ -141,7 +143,7 @@ for(i in 1:nrow(activity)) {
 }
 ```
 
-The above operation coerced the *activity$steps* column into a list.
+The above operation coerced the *activity$steps* column to a list.
 Coerce it back to an integer vector.
 
 
@@ -163,22 +165,20 @@ Plot a histogram of the imputed data:
 
 
 ```r
-op <- par(no.readonly = TRUE)
-par(bg="wheat")
-hist(dsteps$total_steps,
-     main = "Histogram of Total Number of Steps Per Day",
-     xlab = "Total Steps",
-     col = "steelblue"
-     )
+g <- ggplot(dsteps, aes(x = total_steps)) +
+    theme_light() +
+    geom_histogram(breaks = seq(0,25000, by = 2500),
+                   color = "steelblue",
+                   fill = "wheat",
+                   alpha = 0.3) +
+    ggtitle("Histogram of Total Number of Steps Per Day") +
+    xlab("Total Steps")
+print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
 
-```r
-par(op)
-```
-
-Calculate the mean and median total number of steps taken per day:
+Calculate the mean and median of the total number of steps taken per day:
 
 
 ```r
@@ -226,15 +226,15 @@ of steps taken (y-axis) for the weekday and weekend days:
 
 
 ```r
-suppressMessages(library(ggplot2))
-g <- ggplot(df, aes(x = interval, y = avg_steps))
-g <- g + geom_line(aes(group=day, color=day)) +
+g <- ggplot(df, aes(x = interval, y = avg_steps)) +
+    theme_light() +
+    geom_line(aes(group=day, color=day)) +
     facet_wrap(~ day, ncol = 1) +
-    labs(x = "Interval") +
-    labs(y= "Average Number of Steps") +
-    labs(title = "Average Daily Activity")
+    xlab("Interval") +
+    ylab("Average Number of Steps") +
+    ggtitle("Average Daily Activity")
 print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
 
