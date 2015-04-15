@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 ## Introduction
 
@@ -61,7 +66,7 @@ g <- ggplot(dsteps, aes(x = total_steps)) +
 print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 Calculate the mean and median of the total number of steps:
 
@@ -104,7 +109,7 @@ g <- ggplot(dact, aes(x = interval, y = avg_steps)) +
 print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 Find the interval that, on average across all the days in the dataset, contains
 the maximum number of steps:
@@ -182,7 +187,7 @@ g <- ggplot(dsteps, aes(x = total_steps)) +
 print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13-1.png) 
 
 Calculate the mean and median of the total number of steps taken per day:
 
@@ -242,5 +247,5 @@ g <- ggplot(df, aes(x = interval, y = avg_steps)) +
 print(g)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17-1.png) 
 
