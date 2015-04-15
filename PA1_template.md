@@ -20,7 +20,13 @@ library(ggplot2)
 ```
 
 The data was made available as part of the forked Github repo in the form of a
-compressed file named **activity.zip**.  The code below unzips the file and
+compressed file named **activity.zip**.
+
+The data file can also be downloaded from:
+
+https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip
+
+The code below unzips the file and
 reads the data into a data.frame object named *activity*.  No
 other preprocessing of the data is necessary to answer the questions below.
 
@@ -45,7 +51,7 @@ dsteps <- activity %>%
 
 ```r
 g <- ggplot(dsteps, aes(x = total_steps)) +
-    theme_light() +
+    theme_classic() +
     geom_histogram(breaks = seq(0,25000, by = 2500),
                    color = "steelblue",
                    fill = "wheat",
@@ -90,7 +96,7 @@ Plot the average number of steps versus interval:
 
 ```r
 g <- ggplot(dact, aes(x = interval, y = avg_steps)) +
-    theme_light() +
+    theme_classic() +
     geom_line(color = "steelblue") +
     xlab("Interval") +
     ylab("Average Number of Steps") +
@@ -166,7 +172,7 @@ Plot a histogram of the imputed data:
 
 ```r
 g <- ggplot(dsteps, aes(x = total_steps)) +
-    theme_light() +
+    theme_classic() +
     geom_histogram(breaks = seq(0,25000, by = 2500),
                    color = "steelblue",
                    fill = "wheat",
@@ -227,7 +233,7 @@ of steps taken (y-axis) for the weekday and weekend days:
 
 ```r
 g <- ggplot(df, aes(x = interval, y = avg_steps)) +
-    theme_light() +
+    theme_classic() +
     geom_line(aes(group=day, color=day)) +
     facet_wrap(~ day, ncol = 1) +
     xlab("Interval") +
